@@ -1,0 +1,9 @@
+openai
+google-generativeai
+requests
+tiktoken
+pytest
+mcp>=1.0.0
+fastapi
+uvicorn[standard]
+pydantic

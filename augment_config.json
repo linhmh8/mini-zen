@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "ai-discussion": {
+      "command": "python3",
+      "args": ["mcp_discussion_server.py"],
+      "cwd": "/Users/linhmh/Projects/zen-mcp-server/mcp_sdk",
+      "env": {
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}",
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}",
+        "OPENROUTER_API_KEY": "${OPENROUTER_API_KEY}"
+      }
+    }
+  }
+}
