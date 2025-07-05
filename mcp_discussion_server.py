@@ -318,7 +318,9 @@ async def main():
                 InitializationOptions(
                     server_name="mcp-discussion-server",
                     server_version="0.1.0",
-                    capabilities=server.get_capabilities()
+                    capabilities=ServerCapabilities(
+                        tools=ToolsCapability(listChanged=False)
+                    )
                 )
             )
     except ImportError:

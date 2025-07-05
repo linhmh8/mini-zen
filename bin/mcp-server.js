@@ -24,22 +24,45 @@ function findPython() {
   process.exit(1);
 }
 
-// Install Python dependencies if needed
+// Install Python dependencies with virtual environment
 function installDependencies() {
   const python = findPython();
   const requirementsPath = path.join(packageDir, 'requirements.txt');
+  const venvPath = path.join(packageDir, 'venv');
   
-  console.error('📦 Installing Python dependencies...');
-  const install = spawn(python, ['-m', 'pip', 'install', '-r', requirementsPath], {
+  console.error('📦 Setting up Python virtual environment...');
+  
+  // Create virtual environment
+  const createVenv = spawn(python, ['-m', 'venv', venvPath], {
     stdio: 'inherit',
     cwd: packageDir
   });
   
-  install.on('close', (code) => {
+  createVenv.on('close', (code) => {
     if (code === 0) {
-      startServer();
+      // Install dependencies in venv
+      const venvPython = process.platform === 'win32' 
+        ? path.join(venvPath, 'Scripts', 'python.exe')
+        : path.join(venvPath, 'bin', 'python');
+        
+      console.error('📥 Installing dependencies...');
+      const install = spawn(venvPython, ['-m', 'pip', 'install', '-r', requirementsPath], {
+        stdio: 'inherit',
+        cwd: packageDir
+      });
+      
+      install.on('close', (installCode) => {
+        if (installCode === 0) {
+          // Mark dependencies as installed
+          require('fs').writeFileSync(path.join(packageDir, '.dependencies_installed'), '');
+          startServer();
+        } else {
+          console.error('❌ Failed to install dependencies');
+          process.exit(1);
+        }
+      });
     } else {
-      console.error('❌ Failed to install dependencies');
+      console.error('❌ Failed to create virtual environment');
       process.exit(1);
     }
   });
@@ -47,7 +70,14 @@ function installDependencies() {
 
 // Start the MCP server
 function startServer() {
-  const python = findPython();
+  const venvPath = path.join(packageDir, 'venv');
+  
+  // Use venv python if available, otherwise system python
+  const venvPython = process.platform === 'win32' 
+    ? path.join(venvPath, 'Scripts', 'python.exe')
+    : path.join(venvPath, 'bin', 'python');
+    
+  const python = require('fs').existsSync(venvPython) ? venvPython : findPython();
   
   const server = spawn(python, [pythonScript], {
     stdio: 'inherit',
