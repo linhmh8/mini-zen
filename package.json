@@ -1,6 +1,6 @@
 {
   "name": "@linhmh/ai-discussion-mcp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "MCP server for multi-model AI discussions",
   "main": "index.js",
   "bin": {
@@ -9,7 +9,12 @@
   "scripts": {
     "start": "node bin/mcp-server.js"
   },
-  "keywords": ["mcp", "ai", "discussion", "multi-model"],
+  "keywords": [
+    "mcp",
+    "ai",
+    "discussion",
+    "multi-model"
+  ],
   "author": "linhmh",
   "license": "MIT",
   "dependencies": {
