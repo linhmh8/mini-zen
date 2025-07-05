@@ -1,0 +1,24 @@
+{
+  "name": "@linhmh/ai-discussion-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for multi-model AI discussions",
+  "main": "index.js",
+  "bin": {
+    "ai-discussion-mcp": "./bin/mcp-server.js"
+  },
+  "scripts": {
+    "start": "node bin/mcp-server.js"
+  },
+  "keywords": ["mcp", "ai", "discussion", "multi-model"],
+  "author": "linhmh",
+  "license": "MIT",
+  "dependencies": {
+    "child_process": "^1.0.2"
+  },
+  "files": [
+    "bin/",
+    "mcp_discussion_server.py",
+    "mcp_sdk/",
+    "requirements.txt"
+  ]
+}

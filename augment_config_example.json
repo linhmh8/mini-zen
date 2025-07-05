@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "ai-discussion": {
+      "command": "/usr/bin/python3",
+      "args": ["mcp_discussion_server.py"],
+      "cwd": "/Users/linhmh/Projects/mcp_sdk",
+      "env": {
+        "OPENROUTER_API_KEY": "your_openrouter_key_here",
+        "GEMINI_API_KEY": "your_gemini_key_here"
+      }
+    }
+  }
+}
