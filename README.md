@@ -1,52 +1,57 @@
-# 🤖 AI Discussion Server
+# 🤖 AI Discussion MCP Server
 
-Standalone MCP server cho multi-model AI discussions. Có thể call từ Augment để thảo luận giữa nhiều AI models.
+Optimized MCP server for multi-model AI discussions with intelligent context management and token optimization.
 
-## 🚀 Quick Start
+## ✨ Features
 
-### 1. Tách folder này ra khỏi project
+- **Multi-Model Support**: Claude 4.0 (Augment internal), Gemini 2.5 Pro/Flash, DeepSeek R1
+- **Context Optimization**: Intelligent token management and compression
+- **Cost Efficient**: Claude 4.0 free via Augment, optimized pricing for other models
+- **Parallel Processing**: Simultaneous model calls for faster discussions
+- **Smart Context Sharing**: All models receive the same conversation context
+
+## 🚀 Quick Setup
+
+### 1. Install Dependencies
 ```bash
-# Copy toàn bộ folder mcp_sdk ra ngoài
-cp -r mcp_sdk ~/ai-discussion-server
-cd ~/ai-discussion-server
+pip install -r requirements.txt
 ```
 
-### 2. Chạy server
-```bash
-# Cách 1: Auto setup (khuyến nghị)
-./start_local.sh
-
-# Cách 2: Manual
-python3 -m pip install -r requirements.txt
-python3 local_server.py
+### 2. Configure API Keys
+Create or update `augment_config.json`:
+```json
+{
+  "openrouter_api_key": "your_openrouter_key_for_deepseek_r1",
+  "gemini_api_key": "your_google_api_key_for_gemini"
+}
 ```
 
-### 3. Configure Augment
-Thêm vào Augment config:
+### 3. Add to Augment
+Add to your Augment MCP configuration:
 ```json
 {
   "mcpServers": {
     "ai-discussion": {
       "command": "python3",
       "args": ["mcp_discussion_server.py"],
-      "cwd": "/Users/your-username/ai-discussion-server",
+      "cwd": "/path/to/mcp_sdk",
       "env": {
-        "OPENROUTER_API_KEY": "your_openrouter_api_key_here",
-        "GEMINI_API_KEY": "your_gemini_api_key_here"
+        "OPENROUTER_API_KEY": "your_openrouter_api_key",
+        "GEMINI_API_KEY": "your_gemini_api_key"
       }
     }
   }
 }
 ```
 
-### 4. Restart Augment
-
-### 5. Sử dụng trong Augment chat
+### 4. Usage in Augment
 ```
-Hãy thảo luận về React vs Vue giữa r1 và gemini flash
+Thảo luận giữa Claude, Gemini và DeepSeek về cách tối ưu database performance
 ```
 
-## 🎯 Available Tools trong Augment
+## 🛠️ Available Tools
+
+### Core Discussion Tools
 
 ### 1. `discuss` - Multi-Model Discussion
 **Purpose:** Detailed multi-perspective analysis với synthesis
@@ -113,57 +118,58 @@ Get consensus from multiple models.
 **Returns:**
 - `str`: Synthesized consensus response from all models
 
-## Supported Models
+## 🎯 Supported Models
 
-### OpenAI
-- `gpt-4o-mini`
-- `gpt-4o`
-- `o3-mini`
-- `o3`
+### Claude (Augment Internal - FREE)
+- `claude-4` - Claude 4.0 via Augment internal (no API costs)
+- `claude` - General Claude reference
 
 ### Google Gemini
-- `gemini-1.5-flash`
-- `gemini-1.5-pro`
-- `gemini-2.5-flash`
-- `gemini-2.5-pro`
+- `gemini-2.5-pro` - 2M context window, best quality
+- `gemini-2.5-flash` - 1M context window, fast & cost-effective
+- `gemini-2.5-flash-preview-04-17` - Preview version
+- `gemini-2.5-flash-lite-preview-06-17` - Lightweight version
 
 ### OpenRouter
-- Various models available through OpenRouter API
+- `deepseek-r1` - Cost-effective reasoning model
+- `deepseek/deepseek-r1` - Full OpenRouter format
 
-## Testing
+## 💰 Cost Optimization
 
-Run the test suite:
+Optimized for minimal costs:
+- **Claude 4.0**: $0.00 (free via Augment internal)
+- **Gemini 2.5 Flash**: $0.0008 per 6.5K tokens
+- **DeepSeek R1**: $0.0112 per 6.5K tokens
 
-```bash
-# Unit tests
-python -m pytest tests/ -v
+## 🚀 Performance Features
 
-# Real API tests (requires API keys)
-python test_real_api.py
-```
+- **Context Compression**: 31% reduction with quality preservation
+- **Token Caching**: Faster estimation with LRU cache
+- **Parallel Processing**: Multiple model calls simultaneously
+- **Smart Budget Management**: Intelligent token allocation
 
-## Token Optimization
-
-This SDK is designed for minimal token usage:
-- Chat prompt: ~12 tokens
-- Consensus prompt: ~55 tokens
-
-Both prompts are under the 100-token target for maximum efficiency.
-
-## Architecture
-
-The SDK follows a clean architecture:
+## 📁 Project Structure
 
 ```
 mcp_sdk/
 ├── core/
-│   ├── main_logic.py      # Core chat and consensus functions
-│   └── provider_manager.py # Provider management and routing
-├── providers/             # AI model providers
-├── system_prompts/        # Minimized system prompts
-└── utils/                 # Essential utilities
+│   ├── main_logic.py           # Core chat and consensus functions
+│   └── provider_manager.py     # Provider management and routing
+├── providers/                  # AI model providers (Google, OpenRouter)
+├── system_prompts/             # Optimized system prompts
+└── utils/
+    ├── token_utils.py          # Model-specific token estimation
+    ├── context_compression.py  # Intelligent text compression
+    ├── model_optimizer.py      # Per-model optimizations
+    ├── token_budget.py         # Budget management
+    └── conversation_memory.py  # Context persistence
 ```
 
-## License
+## 📚 Documentation
+
+- `OPTIMIZATION_SUMMARY.md` - Detailed optimization guide and results
+- `README.md` - This file
+
+## 📄 License
 
 MIT License
